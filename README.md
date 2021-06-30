@@ -1,1 +1,1 @@
-# projects-1-6
+# project-1
