@@ -1,0 +1,42 @@
+pipeline{
+    agent any
+    
+    tools{
+        terraform 'Terraform'
+    } 
+    options{
+        withAWS(credentials: 'AWScreds')
+    }
+    stages{
+        stage ('cleanup'){
+            steps{
+                cleanWs()
+            }
+        }
+        
+        stage ('GIT'){
+            steps{
+                git branch: 'main', url: 'https://github.com/edoego/project-1'
+            }
+        }
+        
+        
+        stage ('Terraform init'){
+            steps{
+                sh 'terraform init'
+            }
+        }
+        
+        stage ('Terraform plan'){
+            steps{
+                sh 'terraform plan'
+            }
+        }
+        
+        stage ('Terraform apply'){
+            steps{
+                sh 'terraform apply --auto-approve'
+            }
+        }
+    }
+}
